@@ -1,3 +1,5 @@
+import  time
+
 from  selenium import webdriver
 
 
@@ -17,6 +19,15 @@ try:
     username.send_keys('CTZ492745473')
     pwd.send_keys('CTZ1.2.3.DJATM')
     btn.click()
+
+    #2.点击按钮弹出没有切口的图
+    button=tiga.find_element_by_class_name('geetest_radar_tip')
+    button.click()
+
+    
+
+
+    time.sleep(10)
 
 except Exception:
     pass
