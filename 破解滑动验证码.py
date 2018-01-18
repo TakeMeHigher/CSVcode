@@ -1,6 +1,7 @@
 import  time
 
 from  selenium import webdriver
+from selenium.webdriver import ActionChains
 from PIL import Image
 
 
@@ -112,9 +113,26 @@ try:
     # 7、按照人的行为行为习惯，把总位移切成一段段小的位移
     traks_dic = get_tracks(distance)
 
+    # 8、按照位移移动
+    slider_button = tiga.find_element_by_class_name('geetest_slider_button')
+    ActionChains(tiga).click_and_hold(slider_button).perform()
+    # 先向前移动
+    forward_tracks = traks_dic["forward_tracks"]
+    back_tracks = traks_dic["back_tracks"]
+    for forward_track in forward_tracks:
+        ActionChains(tiga).move_by_offset(xoffset=forward_track, yoffset=0).perform()
 
+    # 短暂停顿，发现傻逼，移过了
+    time.sleep(0.2)
 
-    
+    # 先向后移动
+    for back_track in back_tracks:
+        ActionChains(tiga).move_by_offset(xoffset=back_track, yoffset=0).perform()
+
+    ActionChains(tiga).move_by_offset(xoffset=-3, yoffset=0).perform()
+    ActionChains(tiga).move_by_offset(xoffset=3, yoffset=0).perform()
+    time.sleep(0.3)
+    ActionChains(tiga).release().perform()
 
     time.sleep(10)
 
