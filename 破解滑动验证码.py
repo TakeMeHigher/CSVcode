@@ -1,7 +1,32 @@
 import  time
 
 from  selenium import webdriver
+from PIL import Image
 
+
+
+def get_snap(tiga):
+    tiga.save_screenshot('snap.png')
+    snap_obj=Image.open('snap.png')
+    return snap_obj
+
+
+
+
+def get_complete_img(tiga):
+    complete_img=tiga.find_element_by_class_name('geetest_canvas_img')
+    time.sleep(2)
+    size=complete_img.size
+    location=complete_img.location
+    left=location['x']
+    top=location['y']
+    right=left+size['width']
+    bottom=top+size['height']
+
+    snap_obj=get_snap(tiga)
+    image_obj = snap_obj.crop((left, top, right, bottom))
+    image_obj.show()
+    return image_obj
 
 
 
@@ -9,6 +34,7 @@ from  selenium import webdriver
 tiga=webdriver.Chrome()
 tiga.get('https://passport.cnblogs.com/user/signin')
 tiga.implicitly_wait(6)
+
 try:
 
     #1.输入账号密码,点击登录
@@ -24,7 +50,10 @@ try:
     button=tiga.find_element_by_class_name('geetest_radar_tip')
     button.click()
 
-    
+
+    #3.针对没有切口的图进行截图
+    image1=get_complete_img(tiga)
+
 
 
     time.sleep(10)
