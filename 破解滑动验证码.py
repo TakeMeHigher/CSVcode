@@ -54,7 +54,9 @@ try:
     #3.针对没有切口的图进行截图
     image1=get_complete_img(tiga)
 
-
+    # 4、点击滑动按钮，弹出有缺口的图
+    slider_button=tiga.find_element_by_class_name('geetest_slider_button')
+    slider_button.click()
 
     time.sleep(10)
 
