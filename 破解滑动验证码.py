@@ -25,10 +25,24 @@ def get_img(tiga):
 
     snap_obj=get_snap(tiga)
     image_obj = snap_obj.crop((left, top, right, bottom))
-    image_obj.show()
+    #image_obj.show()
     return image_obj
 
+def get_distance(image1,image2):
+    start_x=58
+    threhold=60
+    print(image1.size)#(258, 159)
+    print(image2.size)#(258, 159)
+    for x in range(start_x,image1.size[0]):
+        for y in range(image1.size[1]):
+            rgb1=image1.load()[x,y]
+            rgb2=image2.load()[x,y]
 
+            res1=abs(rgb1[0]-rgb2[0])
+            res2=abs(rgb1[1]-rgb2[1])
+            res3=abs(rgb1[2]-rgb2[2])
+            if not (res1 < threhold and res2 < threhold and res3 < threhold):
+                return x-7
 
 
 tiga=webdriver.Chrome()
@@ -60,6 +74,11 @@ try:
 
     # 5、针对有缺口的图片进行截图
     image2=get_img(tiga)
+
+    #6、对比两张图片，找出缺口，即滑动的位移
+    distance=get_distance(image1,image2)
+    print(distance)
+
 
     time.sleep(10)
 
