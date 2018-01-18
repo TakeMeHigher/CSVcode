@@ -45,6 +45,36 @@ def get_distance(image1,image2):
                 return x-7
 
 
+def get_tracks(distance):
+    distance+=20
+    #v=v0+a*t
+    #s=v*t+0.5*a*(t**2)
+
+    v0=0
+    s=0
+    t=0.2
+    mid=distance*3/5
+    forward_tracks=[]
+
+    while s < distance:
+        if s < mid:
+            a=2
+        else:
+            a=-3
+
+        v=v0
+        track=v*t+0.5*a*(t**2)
+        track=round(track)
+        v0=v+a*t
+        s+=track
+        forward_tracks.append(track)
+    back_tracks=[-1,-1,-1,-2,-2,-2,-3,-3,-2,-2,-1] #20
+    return {"forward_tracks":forward_tracks,'back_tracks':back_tracks}
+
+
+
+
+
 tiga=webdriver.Chrome()
 tiga.get('https://passport.cnblogs.com/user/signin')
 tiga.implicitly_wait(6)
@@ -79,6 +109,12 @@ try:
     distance=get_distance(image1,image2)
     print(distance)
 
+    # 7、按照人的行为行为习惯，把总位移切成一段段小的位移
+    traks_dic = get_tracks(distance)
+
+
+
+    
 
     time.sleep(10)
 
